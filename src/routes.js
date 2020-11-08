@@ -7,6 +7,11 @@ import CriarUsuario from './pages/Usuario/criar';
 import EditarUsuario from './pages/Usuario/editar';
 import DeletarUsuario from './pages/Usuario/deletar';
 
+import MainProdutos from './pages/Produtos/main';
+import CriarProduto from './pages/Produtos/criar';
+
+import RealizarPedido from './pages/Pedidos/criar'
+
 const Routes = () => (
 
     <BrowserRouter>
@@ -16,6 +21,11 @@ const Routes = () => (
             <Route path="/criarUsuario" component={CriarUsuario} />
             <Route path="/editarUsuario/:id" component={EditarUsuario} />
             <Route path="/deletarUsuario/:id" component={DeletarUsuario} />
+
+            <Route exact path='/produtos' component={MainProdutos}/>
+            <Route path="/criarProduto" component={CriarProduto}/>
+
+            <Route path='/realizarPedido' component={RealizarPedido}/>
         </Switch>
     </BrowserRouter>
 )
