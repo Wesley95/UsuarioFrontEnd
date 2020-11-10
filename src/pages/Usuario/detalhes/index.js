@@ -10,7 +10,7 @@ export default class Usuario extends Component{
     componentDidMount(){
         const {id} = this.props.match.params;
 
-        fetch(`http://localhost:3003/sistema/usuarios/${id}`)
+        fetch(`${process.env.REACT_APP_API_URL}/sistema/usuarios/${id}`)
         .then(usuario =>
                 usuario.json().then(usuario => this.setState({usuario}))
             )

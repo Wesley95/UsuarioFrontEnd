@@ -35,7 +35,7 @@ class EditarProduto extends Component {
     componentDidMount() {
         const { id } = this.props.match.params;
 
-        fetch(`http://localhost:3003/sistema/produtos/${id}`)
+        fetch(`${process.env.REACT_APP_API_URL}/sistema/produtos/${id}`)
             .then(data => {   
                 data.json().then(data => {
                     if (data.error) {
@@ -106,7 +106,7 @@ class EditarProduto extends Component {
 
         //console.log(JSON.stringify(this.state.produto));
 
-        fetch(`http://localhost:3003/sistema/produtos/${id}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/sistema/produtos/${id}`, {
             method: "put",
             body: JSON.stringify(this.state.produto),
             headers: {

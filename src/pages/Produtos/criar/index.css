@@ -1,0 +1,55 @@
+.form-edit
+{
+    width:200px;
+    overflow:auto;
+    border-bottom:3px solid brown;
+    margin:0 auto;
+    box-sizing:border-box;
+    padding:0px 0px 20px;
+}
+
+.form-edit button{
+    background:brown;
+    border:none;
+    color:#ffffff;
+    font-weight: 700;
+    margin-top:10px;
+}
+
+.form-edit button:hover{
+    background:rgb(124, 36, 36);
+}
+
+.form-edit legend
+{
+    width:100%;
+    overflow:auto;
+    text-align:left;
+    font-size:20px;
+    font-weight: 700;
+    color:#ffffff;
+    background:brown;
+    box-sizing:border-box;
+    padding:5px;
+}
+
+.form-edit fieldset
+{    
+    box-sizing:border-box;
+    padding:5px;
+}
+
+.form-edit label
+{
+    display:block;
+    font-size:15px;
+    color:black;
+    text-align:left;
+    margin-bottom:3px;
+}
+
+input[type="text"]
+{
+    font-size:12px;
+    margin-bottom:5px;
+}

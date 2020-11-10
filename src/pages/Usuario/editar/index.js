@@ -32,7 +32,7 @@ class EditarUsuario extends Component {
     componentDidMount() {
         const { id } = this.props.match.params;
 
-        fetch(`http://localhost:3003/sistema/usuarios/${id}`)
+        fetch(`${process.env.REACT_APP_API_URL}/sistema/usuarios/${id}`)
             .then(data => {
                 data.json().then(data => {
                     if (data.error) {
@@ -123,7 +123,7 @@ class EditarUsuario extends Component {
 
         console.log(JSON.stringify(this.state.usuario));
 
-        fetch(`http://localhost:3003/sistema/usuarios/${id}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/sistema/usuarios/${id}`, {
             method: "put",
             body: JSON.stringify(this.state.usuario),
             headers: {

@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import './index.css';
+import CurrencyInput from 'react-currency-masked-input'
+import $ from 'jquery';
+import {cleanText} from '../../Usuario/scripts/InAllFile.js';
+
 
 class CriarProduto extends Component {
     constructor(props) {
@@ -10,7 +14,7 @@ class CriarProduto extends Component {
             produto: {
                 nome: "",
                 preco: "",
-                disponivel: true                
+                disponivel: true
             },
             erro: null,
             redirect: false
@@ -35,33 +39,29 @@ class CriarProduto extends Component {
             return <Redirect to="/produtos" />;
         } else {
             return (
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSubmit} className="form-edit form-check">
                     <fieldset>
                         <legend>Criar Produto</legend>
                         <div className="produto-insert">
                             <label htmlFor="nome">Nome </label>
-                            <br />
-                            <input type="text" id="nome" name="nome" placeholder="Nome" minLength="3" maxLength="100" required 
-                            value={this.state.produto.nome} onChange={this.handleInputChange} />
+                            <input type="text" id="nome" name="nome" placeholder="Nome" className="form-control" minLength="3" maxLength="100" required
+                                value={this.state.produto.nome} onChange={this.handleInputChange} />
                         </div>
-                        <div className="produto-insert">
+                        <div className="usuario-update">
                             <label htmlFor="preco">Preço</label>
-                            <br />
-                            <input type="text" id="preco" name="preco" placeholder="Preço" required  value={this.state.produto.preco} 
-                            onChange={this.handleInputChange}/>
+                            <CurrencyInput type="text" pattern="[0-9]+(\.[0-9][0-9]?)?" name="preco" id="preco" className="form-control"
+                                placeholder="0.00" onChange={this.handleInputChange} />
                         </div>
-                        <div className="produto-insert">
-                            <label>
-                                <input type="radio" name="ativo" value="true" checked={this.state.produto.disponivel === "true"}
-                                    onChange={this.handleInputChange}/> Disponível
-                            </label>
-                            <label>
-                                <input type="radio" value="false" name="ativo" checked={this.state.produto.disponivel === "false"}
-                                    onChange={this.handleInputChange}/>Indisponível
+
+                        <div class="form-check">
+                            <input className="form-check-input active" type="checkbox" name="checkAtiveUn" id="active"/>
+                            <label className="form-check-label" for="active">
+                                Ativo
                             </label>
                         </div>
+
                         <button type="submit" className="btn btn-primary">
-                            Novo Produto
+                            Cadastrar
                         </button>
                     </fieldset>
                 </form>
@@ -81,7 +81,14 @@ class CriarProduto extends Component {
     };
 
     handleSubmit = event => {
-        fetch("http://localhost:3003/sistema/produtos", {
+
+        var preco = $("#preco").val().length != 0 ? $("#preco").val() : "0.00";
+
+        this.state.produto.preco = preco;
+        this.state.produto.disponivel = $(".active:checked").length > 0 ? true : false;
+        this.state.produto.nome = cleanText(this.state.produto.nome);
+
+        fetch(`${process.env.REACT_APP_API_URL}/sistema/produtos`, {
             method: "post",
             body: JSON.stringify(this.state.produto),
             headers: {

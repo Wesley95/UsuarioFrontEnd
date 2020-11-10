@@ -88,7 +88,7 @@ class CriarUsuario extends Component {
             this.state.usuario.salario = "0.00";
             // console.log(JSON.stringify(this.state.usuario));
 
-            fetch("http://localhost:3003/sistema/usuarios", {
+            fetch(`${process.env.REACT_APP_API_URL}/sistema/usuarios`, {
                 method: "post",
                 body: JSON.stringify(this.state.usuario),
                 headers: {

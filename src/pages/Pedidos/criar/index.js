@@ -21,13 +21,13 @@ export default class Main extends Component {
     }
 
     componentDidMount() {
-        fetch(`http://localhost:3003/sistema/produtos`)
+        fetch(`${process.env.REACT_APP_API_URL}/sistema/produtos`)
             .then(produto =>
                 produto.json().then(produto => this.setState({ produto }))
             )
             .catch(erro => this.setState({ erro }));
 
-        fetch(`http://localhost:3003/sistema/usuarios`)
+        fetch(`${process.env.REACT_APP_API_URL}/sistema/usuarios`)
             .then(cliente =>
                 cliente.json().then(cliente => this.setState({ cliente }))
             )
@@ -75,7 +75,7 @@ export default class Main extends Component {
             if (all.clientId != null && all.clientId != undefined) {
                 console.log(JSON.stringify(all));
 
-                fetch("http://localhost:3003/sistema/pedidos", {
+                fetch(`${process.env.REACT_APP_API_URL}/sistema/pedidos`, {
                     method: "post",
                     body: JSON.stringify(all),
                     headers: {

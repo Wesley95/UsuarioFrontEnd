@@ -16,7 +16,7 @@ export default class ListarPedidos extends Component {
     }
 
     componentDidMount() {
-        fetch(`http://localhost:3003/sistema/pedidos`)
+        fetch(`${process.env.REACT_APP_API_URL}/sistema/pedidos`)
             .then(pedidos =>
                 pedidos.json().then(pedidos => this.setState({ pedidos }))
             )
