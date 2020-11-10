@@ -1,31 +1,26 @@
-import React from 'react'; 
+import React from 'react';
+import './header.css';
+import { Link } from "react-router-dom";
 
- 
+const Header = () => (
 
-//header é um component 
+    <div class="nav-top">
+        <div class="top-border"></div>
+        <div class="border-style"></div>
 
-//cria uma pasta somente para ele pq vai ficar todos arquivos dele em um lugar só 
+        <div class="width-max ">
+            <ul class="left-li">
+                <li><a href="/listarPedidos">Pedidos</a></li>
+                <li><a href="/realizarPedido">Realizar Pedidos</a></li>
+                <li><a href="/usuarios">Clientes</a></li>
+                <li><a href="/produtos">Produtos</a></li>
 
- 
+            </ul>
+        </div>
+    </div>
 
-//para importar o css, venho direto aqui tbm 
+);
 
-import './header.css'; 
 
- 
-
-//stateless components - criamos componentes por meio de variaveis 
-
-//pode tirar os parenteses se desejar 
-
-const Header = () => ( 
-
-    <header id="main-header">Sistema</header> 
-
-     
-
-); 
-
- 
 
 export default Header; 

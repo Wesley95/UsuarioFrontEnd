@@ -1,14 +1,13 @@
 import $ from 'jquery';
 import React, { Component } from 'react';
 import './index.css';
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../criar/Plugins/jquery.dpNumberPicker-1.0.1-min.js';
 import './Plugins/css/jquery.dpNumberPicker-1.0.1-min.css';
 import './Plugins/css/jquery.dpNumberPicker-holoLight-1.0.1-min.css';
 import './Plugins/jquery.NumberPickerController.js';
 import './Plugins/jquery.RequestController.js';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default class Main extends Component {
     constructor(props) {
@@ -55,49 +54,105 @@ export default class Main extends Component {
         });
     }
 
+    handleSubmit = event => {
+
+        let all = {
+            clientId: $(".client-name option:selected").val(),
+            Products: []
+        };
+
+        $(".request-field .request-item").each(function (index, element) {
+            var newvalue = {
+                id: $(this).attr("data-id"),
+                total: $(this).find(".total-product .dp-numberPicker-input").val()
+            };
+
+            all["Products"].push(newvalue);
+        });
+
+        if (all["Products"].length > 0) {
+
+            if (all.clientId != null && all.clientId != undefined) {
+                console.log(JSON.stringify(all));
+
+                fetch("http://localhost:3003/sistema/pedidos", {
+                    method: "post",
+                    body: JSON.stringify(all),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).then(data => {
+                    if (data.ok) {
+                        this.setState({ redirect: true });
+                    } else {
+                        data.json().then(data => {
+                            if (data.error) {
+                                this.setState({ erro: data.error });
+                            }
+                        });
+                    }
+                })
+                    .catch(erro => this.setState({ erro: erro }));
+            }
+            else {
+                alert("We gottta a problem.");
+            }
+        } else {
+            alert("Não há produtos selecionados. Favor selecionar um para que possa prosseguir com o cadastro.");
+        }
+
+        event.preventDefault();
+    };
+
     render() {
-        const { produto,cliente } = this.state;
-
-        return (
-            <div className="divider container-principal">
-                <div className="divider-left">
-                    <div className="produto-list">
-                        <table className="table">
-                            <thead>
-                                <tr id>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nome</th>
-                                    <th scope="col">Preço</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {produto.map((produto, index) => (
-                                    <tr id={produto.id}>
-                                        <th scope="row">{produto.id}</th>
-                                        <td>{produto.nome}</td>
-                                        <td>{produto.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                                        <td> <button type="button" id={produto.id} data-id={produto.id} className="btn-add-request btn btn-primary">+</button></td>
+        const { produto, cliente,redirect } = this.state;
+        
+        if (redirect) {
+            return <Redirect to="/listarPedidos"/>;
+        } else {
+            return (
+                <div className="divider container-principal">
+                    <div className="divider-left">
+                        <div className="produto-list">
+                            <table className="table">
+                                <thead>
+                                    <tr id>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nome</th>
+                                        <th scope="col">Preço</th>
+                                        <th scope="col">Adicionar</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-                <div className="divider-right">
-                    <div className="client-name-container">
-                        <div className="">
-                            <label htmlFor="client-name" className="">Cliente:</label>
-                            <select id="client-name" name="" className="custom-select client-name" required>
-                                {cliente.map((cliente, index) =>(
-                                    <option value={cliente.id} data-id={cliente.id}>{cliente.nome}</option>
-                                ))}
-                            </select>
+                                </thead>
+                                <tbody>
+                                    {produto.map((produto, index) => (
+                                        <tr id={produto.id}>
+                                            <th scope="row">{produto.id}</th>
+                                            <td>{produto.nome}</td>
+                                            <td>{produto.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                            <td> <button type="button" id={produto.id} data-id={produto.id} className="btn-add-request btn btn-primary">+</button></td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
-                        <button className="col-auto my-1 btn btn-warning confirm-requests">Confirmar</button>
+
                     </div>
-                    <div className="request-field">
-                        {/* <div className="request-item" data-id="1">
+                    <div className="divider-right">
+                        <form onSubmit={this.handleSubmit}>
+                            <div className="client-name-container">
+                                <div className="">
+                                    <label htmlFor="client-name" className="">Cliente:</label>
+                                    <select id="client-name" name="" className="custom-select client-name" required>
+                                        {cliente.map((cliente, index) => (
+                                            <option value={cliente.id} data-id={cliente.id}>{cliente.nome}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <button className="col-auto my-1 btn btn-warning confirm-requests">Confirmar</button>
+                            </div>
+                        </form>
+                        <div className="request-field">
+                            {/* <div className="request-item" data-id="1">
                             <div className="line-divider small-box">
                                 <div className="product-name-price">
                                     Vrau
@@ -120,9 +175,10 @@ export default class Main extends Component {
                                 </div>
                             </div>
                         </div> */}
+                        </div>
                     </div>
                 </div>
-            </div>
-        )
+            )
+        }
     }
 }

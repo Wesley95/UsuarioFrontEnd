@@ -93,6 +93,19 @@
 }
 
 
+.confirm-requests
+{
+    background:brown;
+    color:white;
+    font-weight: 700;
+    border:none;    
+}
+
+.confirm-requests:hover{
+    background:rgb(124, 36, 36);
+}
+
+
 
 /*TABLE*/
 

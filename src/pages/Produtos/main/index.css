@@ -38,3 +38,16 @@
     background: blue; 
     color: #fff; 
 } 
+
+
+.btn-new-products
+{
+    background:brown;
+    color:white;
+    font-weight: 700;
+    border:none;    
+}
+
+.btn-new-products:hover{
+    background:rgb(124, 36, 36);
+}

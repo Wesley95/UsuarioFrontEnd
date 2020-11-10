@@ -4,7 +4,7 @@ import './jquery.dpNumberPicker-1.0.1-min.js';
 $(document).on("click", ".btn-add-request", function (e) {
     var button = $(this);
     const id = $(this).attr("id");
-    e.preventDefault();
+    
 
     var request_item = $(".request-item[data-id='" + id + "']");
 
@@ -73,8 +73,8 @@ $(document).on("click", ".btn-add-request", function (e) {
                     })
 
                     $(button).prop("disabled", true);
-                }else
-                alert("existe");
+                } else
+                    alert("existe");
 
             },
             error: function () {
@@ -82,7 +82,7 @@ $(document).on("click", ".btn-add-request", function (e) {
             }
         });
     }
-    else alert("existe");
+    e.preventDefault();
 });
 
 $(document).on("click", ".cancel-request", function () {
@@ -92,21 +92,3 @@ $(document).on("click", ".cancel-request", function () {
     $("button.btn-add-request[data-id='" + id + "']").prop("disabled", false);
     $(this).parents(".request-item[data-id='" + id + "']").remove();
 });
-
-$(document).on("click",".confirm-requests",function(){
-
-    let all = {ObjRequest:[]};
-
-    $(".request-field .request-item").each(function(index,element){
-        var newvalue = {
-            id:$(this).attr("data-id"),
-            total:$(this).find(".total-product .dp-numberPicker-input").val(),
-            clientId:$(".client-name option:selected").val()
-        };
-
-        all["ObjRequest"].push(newvalue);
-    });
-
-    var jsonConverted = JSON.stringify(all);
-    console.log(jsonConverted);
-})

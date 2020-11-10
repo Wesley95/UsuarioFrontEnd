@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import './index.css';
+import { underAge } from '../../Usuario/scripts/InAllFile.js';
+import $ from 'jquery';
 
 class CriarUsuario extends Component {
     constructor(props) {
@@ -36,78 +38,27 @@ class CriarUsuario extends Component {
             return <Redirect to="/usuarios" />;
         } else {
             return (
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSubmit} className="form-edit form-check">
                     <fieldset>
                         <legend>Criar Usuário</legend>
                         <div className="usuario-insert">
                             <label htmlFor="nome">Nome </label>
-                            <br />
-                            <input
-                                type="text"
-                                id="nome"
-                                name="nome"
-                                placeholder="Nome"
-                                minLength="3"
-                                maxLength="100"
-                                required
-                                value={this.state.usuario.nome}
-                                onChange={this.handleInputChange}
-                            />
-                        </div>
-                        <div className="usuario-insert">
-                            <label htmlFor="salario">Salário </label>
-                            <br />
-                            <input
-                                type="text"
-                                id="salario"
-                                name="salario"
-                                placeholder="Salário"
-                                required
-                                value={this.state.usuario.salario}
-                                onChange={this.handleInputChange}
-                            />
+                            <input type="text" id="nome" name="nome" className="form-control" placeholder="Nome" minLength="3" maxLength="100" required onChange={this.handleInputChange} />
                         </div>
                         <div className="usuario-insert">
                             <label htmlFor="dataNascimento">Data de Nascimento </label>
-                            <br />
-                            <input
-                                type="date"
-                                id="dataNascimento"
-                                name="dataNascimento"
-                                placeholder="Data de Nascimento"
-                                required
-                                value={this.state.usuario.dataNascimento}
-                                onChange={this.handleInputChange}
-                            />
+                            <input type="date" id="dataNascimento" className="form-control" name="dataNascimento"
+                                placeholder="Data de Nascimento" required value={this.state.usuario.dataNascimento} onChange={this.handleInputChange} />
                         </div>
 
-                        <div className="usuario-insert">
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="ativo"
-                                    value="true"
-                                    checked={this.state.usuario.ativo === "true"}
-                                    onChange={this.handleInputChange}
-                                />
+                        <div class="form-check">
+                            <input className="form-check-input" type="checkbox" name="ativo" id="active" onChange={this.handleInputChange} />
+                            <label className="form-check-label" for="active">
                                 Ativo
-                        </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    value="false"
-                                    name="ativo"
-                                    checked={this.state.usuario.ativo === "false"}
-                                    onChange={this.handleInputChange}
-                                />
-                                Inativo
-                        </label>
+                            </label>
                         </div>
 
-
-                        <button type="submit" className="btn btn-primary">
-                            Cadastrar
-                    </button>
+                        <button type="submit" className="btn btn-primary">Cadastrar</button>
                     </fieldset>
                 </form>
             );
@@ -122,29 +73,48 @@ class CriarUsuario extends Component {
         this.setState(prevState => ({
             usuario: { ...prevState.usuario, [name]: value }
         }));
-        console.log(value);
+        // console.log(value);
     };
 
     handleSubmit = event => {
-        fetch("http://localhost:3003/sistema/usuarios", {
-            method: "post",
-            body: JSON.stringify(this.state.usuario),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-            .then(data => {
-                if (data.ok) {
-                    this.setState({ redirect: true });
-                } else {
-                    data.json().then(data => {
-                        if (data.error) {
-                            this.setState({ erro: data.error });
-                        }
-                    });
+
+        var age = underAge(this.state.usuario.dataNascimento, "-");
+        var checked = $(".form-check-input:checked").length > 0?true:false;
+        // alert(checked);
+        if (age.age >= 18) {
+
+            this.state.usuario.dataNascimento = age.year;
+            this.state.usuario.ativo = checked;
+            this.state.usuario.salario = "0.00";
+            // console.log(JSON.stringify(this.state.usuario));
+
+            fetch("http://localhost:3003/sistema/usuarios", {
+                method: "post",
+                body: JSON.stringify(this.state.usuario),
+                headers: {
+                    "Content-Type": "application/json"
                 }
             })
-            .catch(erro => this.setState({ erro: erro }));
+                .then(data => {
+                    if (data.ok) {
+                        this.setState({ redirect: true });
+                    } else {
+                        data.json().then(data => {
+                            if (data.error) {
+                                this.setState({ erro: data.error });
+                            }
+                        });
+                    }
+                })
+                .catch(erro => this.setState({ erro: erro }));
+        }
+        else {
+            if (age.age <= 0) {
+                alert("Idade negativa não é aceitável.");
+            }
+            else
+                alert("Proibido usuários menores de idade.");
+        }      
 
         event.preventDefault();
     };

@@ -26,10 +26,10 @@ export default class Main extends Component {
 
         return (
             <div className="produto-list">
-                <Link to={`/criarProduto`}> <button type="button" class="btn btn-success">Novo</button> </Link>
+                <Link to={`/criarProduto`}> <button type="button" class="btn btn-new-products btn-success">Novo</button> </Link>
                 <br /><br />
 
-                <table class="table table-hover">
+                <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -45,8 +45,7 @@ export default class Main extends Component {
                                 <td>{produto.nome}</td>
                                 <td>{produto.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                                 <td>{produto.disponivel ? "Sim" : "Não"}</td>
-                                <td> <Link to={`/editarProduto/${produto.id}`}> <button type="button" class="btn btn-warning">Atualizar</button> </Link></td>
-                                <td> <Link to={`/deletarProduto/${produto.id}`}> <button type="button" class="btn btn-danger">Excluir</button> </Link></td>
+                                <td> <Link to={`/editarProduto/${produto.id}`}> <button type="button" class="btn btn-danger">Atualizar</button> </Link></td>                                
                             </tr>
                         ))}
                     </tbody>

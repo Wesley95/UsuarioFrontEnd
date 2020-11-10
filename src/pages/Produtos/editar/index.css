@@ -48,33 +48,8 @@
     margin-bottom:3px;
 }
 
-input[type="text"],
-input[type="date"]
+input[type="text"]
 {
     font-size:12px;
     margin-bottom:5px;
-}
-
-.btn-new-user
-{
-    background:brown;
-    color:white;
-    font-weight: 700;
-    border:none;    
-}
-
-.btn-new-user:hover{
-    background:rgb(124, 36, 36);
-}
-
-thead
-{
-    background:brown;
-    color:white;
-    border:none;
-}
-
-tr, th
-{
-    border:none;
 }

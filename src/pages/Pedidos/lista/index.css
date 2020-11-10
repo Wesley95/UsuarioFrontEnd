@@ -1,0 +1,90 @@
+.container-div
+{
+    width:1200px;
+    overflow:auto;
+    margin:0 auto;    
+    position:relative;
+}
+
+.request-client-field
+{
+    box-sizing: border-box;
+    position:absolute;
+    width:250px;
+    overflow:auto;
+    background:#ffffff;
+    border-bottom:solid 1px brown;
+    margin-bottom:10px;
+}
+
+.box-default
+{    
+    box-sizing:border-box;
+    padding:2px 5px;
+}
+
+.lines
+{    
+    width:100%;
+    margin-bottom:4px;
+    /* background:rgb(252, 97, 97); */
+}
+
+.lines-text
+{
+    font-size:13px;
+    font-weight: 700;
+    color:brown;
+}
+
+.info-request-products
+{
+    display:flex;
+    justify-content: space-between;
+    font-size:13px;
+}
+/* 
+.info-products
+{
+    width:100%;
+    background:white;
+    margin-bottom:3px;
+    overflow:auto;
+} */
+
+.label-request,
+.label-request-price
+{
+    font-size:13px;
+    font-weight: 700;
+}
+
+.invi-div
+{
+    display:none;
+}
+
+.label-request
+{
+    color:Black;
+}
+
+.label-request-price,
+.label-total{
+    color:rgb(117, 35, 35);
+}
+
+.request-client-field .top-id-request
+{
+    background:brown;
+    overflow:auto;
+    width:100%;
+    font-size:15px;
+    color:#ffffff;
+    font-weight: 700;
+}
+.product-price-total
+{
+    width:100%;
+    overflow:auto;
+}
