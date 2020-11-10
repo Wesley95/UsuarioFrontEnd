@@ -5,6 +5,7 @@ $(document).on("click",".btn-delete-user",function(){
     let id = $(this).attr("data-id");
    if(window.confirm("Você deseja deletar este cliente?")) 
    {
+       alert(`${process.env.REACT_APP_API_URL}`);
        $.ajax({
             url: `${process.env.REACT_APP_API_URL}/sistema/usuarios/` + id,
             method: "DELETE",
