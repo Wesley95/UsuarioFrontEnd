@@ -12,7 +12,7 @@ $(document).on("click", ".btn-add-request", function (e) {
 
         // alert($(".request-item[data-id='1']").html());
         $.ajax({
-            url: "http://localhost:3003/sistema/produtos/" + id,
+            url: `${process.env.REACT_APP_API_URL}/sistema/produtos/` + id,
             method: "GET",
             dataType: "JSON",
             contentType: "application/json",

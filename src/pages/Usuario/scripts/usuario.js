@@ -6,7 +6,7 @@ $(document).on("click",".btn-delete-user",function(){
    if(window.confirm("Você deseja deletar este cliente?")) 
    {
        $.ajax({
-            url: "http://localhost:3003/sistema/usuarios/" + id,
+            url: `${process.env.REACT_APP_API_URL}/sistema/usuarios/` + id,
             method: "DELETE",
             success:function(){
                 alert("O usuário foi deletado com sucesso.");
